@@ -37,7 +37,7 @@ export default function Splash ({navigation}:any) {
 
     return (
         <View style={styles.container}>
-           <Image style={styles.image} source={require("/assets/images/RealEduLangLogo.png")} />
+           <Image style={styles.image} source={require("../assets/images/RealEduLangLogo.png")} />
            <Text style={styles.text} />
         </View>
     )

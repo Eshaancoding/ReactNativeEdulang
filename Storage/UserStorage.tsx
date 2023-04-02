@@ -45,58 +45,54 @@ export async function logoutUserFirebase() {
     return firebase.auth().signOut()
 }
 
-export function getUserInfoFirebase() {
+export async function getUserInfoFirebase() {
     const [grade, setGrade] = useAtom(gradeAtom)    
     const [nativelang, setNativeLanguage] = useAtom(nativeLanguageAtom)
     const [translatedLang, setTranslatedLanguage] = useAtom(translatedLanguageAtom)
     const [username, setUsername] = useAtom(usernameAtom)
     const [isAdmin, setIsAdmin] = useAtom(isAdminAtom)
 
-    return new Promise((resolve, reject) => {
-        firebase
-            .firestore()
-            .collection("userInfo")
-            .doc(firebase.auth().currentUser!.uid)
-            .onSnapshot(async (snapshot) => {
-                if (snapshot) {
-                    // Get data from snapshot
-                    var grade = snapshot.data()!.grade
-                    var nativeLanguage = snapshot.data()?.nativeLanguage
-                    var translatedLanguageConfig = snapshot.data()?.translatedLanguageConfig
-                    var username = snapshot.data()?.username
-                    var isAdmin = snapshot.data()?.isAdmin
+    await firebase
+        .firestore()
+        .collection("userInfo")
+        .doc(firebase.auth().currentUser!.uid)
+        .onSnapshot(async (snapshot) => {
+            if (snapshot) {
+                // Get data from snapshot
+                var grade = snapshot.data()!.grade
+                var nativeLanguage = snapshot.data()?.nativeLanguage
+                var translatedLanguageConfig = snapshot.data()?.translatedLanguageConfig
+                var username = snapshot.data()?.username
+                var isAdmin = snapshot.data()?.isAdmin
 
-                    // Check if variable are undefined and set to default values
-                    if (grade == undefined) {
-                        await setUserInfo(undefined, undefined, 1, undefined, false)
-                        grade = 1
-                    }
-                    if (nativeLanguage == undefined) {
-                        const val = "EN"
-                        await setUserInfo(val, undefined, undefined, undefined, false)
-                        nativeLanguage = val
-
-                    }
-                    if (translatedLanguageConfig == undefined) {
-                        const val = "XH"
-                        await setUserInfo(undefined, val, undefined, undefined, false)
-                        translatedLanguageConfig = val
-                    }
-
-                    // set atom types
-                    setGrade(grade)                    
-                    setNativeLanguage(nativeLanguage)
-                    setTranslatedLanguage(translatedLanguageAtom)
-                    setUsername(username)
-                    setIsAdmin(isAdmin)
-
-                    resolve([grade, nativeLanguage, translatedLanguageConfig, username, isAdmin])
+                // Check if variable are undefined and set to default values
+                if (grade == undefined) {
+                    await setUserInfo(undefined, undefined, 1, undefined, false)
+                    grade = 1
                 }
-                else {
-                    reject("Unable to get snapshot data")
+                if (nativeLanguage == undefined) {
+                    const val = "EN"
+                    await setUserInfo(val, undefined, undefined, undefined, false)
+                    nativeLanguage = val
+
                 }
-            });
-    })
+                if (translatedLanguageConfig == undefined) {
+                    const val = "XH"
+                    await setUserInfo(undefined, val, undefined, undefined, false)
+                    translatedLanguageConfig = val
+                }
+
+                // set atom types
+                setGrade(grade)                    
+                setNativeLanguage(nativeLanguage)
+                setTranslatedLanguage(translatedLanguageAtom)
+                setUsername(username)
+                setIsAdmin(isAdmin)
+            }
+            else {
+                console.log("Unable to get snapshot data")
+            }
+        });
 }
 
 export function setUserInfo(nativelanguage:any, translatedlanguage:any, grade:any, username:any, set:boolean = true) {
