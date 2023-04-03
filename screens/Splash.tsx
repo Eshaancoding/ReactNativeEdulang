@@ -1,6 +1,8 @@
 import * as React from 'react'
 import * as firebase from 'firebase'
 import {Text, View, StyleSheet, Image} from "react-native"
+import { getUserInfoFirebase } from '../Storage/UserStorage'
+import { updateAtomData } from '../Storage/BookStorage'
 
 const styles = StyleSheet.create({
     container: {
@@ -20,8 +22,6 @@ const styles = StyleSheet.create({
             translateX: -50, 
             translateY: 50
         }]
-
-        // ADD A FONT PLEASE
     }
 })
 
@@ -29,10 +29,13 @@ export default function Splash ({navigation}:any) {
     React.useEffect(() => {
         setTimeout(() => {
             firebase.auth().onAuthStateChanged(async (user) => {
-                if (user) navigation.replace("Tabs")            // if valid user, navigate to actual home screen
+                if (user) {                     // if valid user
+                    await getUserInfoFirebase() // sets username, isAdmin, 
+                    await updateAtomData();     // sets fav books and data etc.
+                    navigation.replace("Tabs")  // navigate to actual home screen
+                }
                 else navigation.replace("Welcome Screen")       // if invalid user, navigate to log in/sign up screen
-            })
-        }, 3000) // if exceed 3 seconds, then escape
+            }) }, 3000) // if exceed 3 seconds, then escape
     }, [])  
 
     return (

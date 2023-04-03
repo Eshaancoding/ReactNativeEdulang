@@ -3,6 +3,7 @@ import axios from "axios";
 import { server } from "../Server";
 import { useAtom } from "jotai";
 import { atomWithReset, RESET } from "jotai/utils"
+import {Alert} from "react-native"
 
 // atom decl
 export const gradeAtom = atomWithReset(-1)
@@ -85,12 +86,12 @@ export async function getUserInfoFirebase() {
                 // set atom types
                 setGrade(grade)                    
                 setNativeLanguage(nativeLanguage)
-                setTranslatedLanguage(translatedLanguageAtom)
+                setTranslatedLanguage(translatedLanguageConfig)
                 setUsername(username)
                 setIsAdmin(isAdmin)
             }
             else {
-                console.log("Unable to get snapshot data")
+                Alert.alert("Unable to get snapshot data")
             }
         });
 }
@@ -102,7 +103,7 @@ export function setUserInfo(nativelanguage:any, translatedlanguage:any, grade:an
     const [usernameA, setUsername] = useAtom(usernameAtom)
     const [isAdmin, setIsAdmin] = useAtom(isAdminAtom)
 
-    const info = {nativeLanguage: null, translatedLanguageConfig: null, grade: -1, username: "", isAdmin: false}
+    const info = {nativeLanguage: nativelang, translatedLanguageConfig: translatedLang, grade: gradeA, username: usernameA, isAdmin: isAdmin}
 
     if (nativelanguage != undefined && nativelanguage != null) info.nativeLanguage = nativelanguage
     if (translatedlanguage != undefined && translatedlanguage != null) info.translatedLanguageConfig = translatedlanguage

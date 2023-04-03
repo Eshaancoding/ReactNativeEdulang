@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import {
   View,
-  ActivityIndicator,
   Modal,
   StyleSheet,
   Text,
-  Pressable,
   TextInput,
+  Alert,
 } from "react-native";
 import * as firebase from "firebase";
 import CustomButton from "../globals/CustomButton";
@@ -17,7 +16,7 @@ const FeedbackModal = ({ visible, hideModal }:any) => {
 
   const SubmitFeedback = () => {
     if (feedbackText == "") {
-      console.log("Please enter feedback");
+      Alert.alert("Please enter feedback!")
     } else {
       firebase.auth().onAuthStateChanged((user) => {
         if (user) {
@@ -30,11 +29,11 @@ const FeedbackModal = ({ visible, hideModal }:any) => {
               timeStampp: Date.now(),
             })
             .then(() => {
-              console.log("feedback sent");
+              Alert.alert("Feedback sent.")
               hideModal();
             })
             .catch((err) => {
-              console.log(err);
+              Alert.alert(err);
             });
         }
       });

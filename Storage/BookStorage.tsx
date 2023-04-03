@@ -212,7 +212,6 @@ export async function uploadBook(item:any, directBook = false) {
     for (var i = 0; i < Object.keys(item.book).length; i++) {
         const keySet = "page" + (i + 1).toString()
         await document.collection(keySet).doc((i + 1).toString()).set({ value: item.book[i] }).catch((e) => {
-            console.log(e)
             i = item.length
         })
         // To avoid writing too much at the same time :)
@@ -271,7 +270,6 @@ export async function acceptBook(item:any) {
     for (var i = 0; i < Object.keys(item.book).length; i++) {
         const keySet = "page" + (i + 1).toString()
         await document.collection(keySet).doc((i + 1).toString()).set({ value: item.book[i] }).catch((e) => {
-            console.log(e)
             i = item.length
         })
         // To avoid writing too much at the same time :)

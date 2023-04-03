@@ -4,9 +4,6 @@ import { Icon } from "native-base";
 import { useEffect } from "react";
 
 export function LanguageSelector({ onValueChange, placeholder, defaultValue }:any) {
-    useEffect(() => {
-        console.log("Defualt vluae ", defaultValue)
-    }, [])
     return (
         <Select
             w={{
