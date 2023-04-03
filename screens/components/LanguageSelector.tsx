@@ -1,5 +1,5 @@
 import { Select, Stack } from "native-base";
-import { Ionicons } from "@expo/vector-icons";
+import Ionicons from "react-native-vector-icons/Ionicons"
 import { Icon } from "native-base";
 import { useEffect } from "react";
 

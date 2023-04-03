@@ -1,4 +1,4 @@
-import { AntDesign } from "@expo/vector-icons";
+import AntDesign from "react-native-vector-icons/AntDesign"
 import { useState, useEffect } from "react";
 import { Dimensions, Image } from "react-native";
 import { Center } from "native-base";

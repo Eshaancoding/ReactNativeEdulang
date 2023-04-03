@@ -1,7 +1,7 @@
 import * as React from "react"
 import {Box, Center, Heading, HStack, Icon, Input, Pressable, Stack, Text, FormControl, Select} from "native-base"
 import CustomButton from "../globals/CustomButton";
-import { MaterialIcons} from "@expo/vector-icons";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons"
 import { View, Image, StyleSheet, Keyboard, Dimensions, TouchableWithoutFeedback } from "react-native";
 import Animated, {useSharedValue, useAnimatedStyle, interpolate, withTiming, withDelay} from "react-native-reanimated";
 import FormLogin from "./FormLogin";
@@ -92,7 +92,6 @@ export default function WelcomeScreenNew ({ navigation }:any) {
   };
   const exitHandler = () => {
     imagePosition.value = 1;
-    // setFormSelected(null);
   };
 
   React.useEffect(() => {clearAllStorageData()}, [isFocused]);

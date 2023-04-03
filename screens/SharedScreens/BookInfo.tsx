@@ -17,7 +17,7 @@ import {
 } from "../../Storage/BookStorage";
 import { Alert } from "react-native";
 import { getBookPages, addBookLocally } from "../../Storage/BookStorage";
-import { AntDesign } from "@expo/vector-icons";
+import AntDesign from "react-native-vector-icons/AntDesign"
 import CustomButton from "../globals/CustomButton";
 import { SIZES } from "../../constants";
 
@@ -123,7 +123,7 @@ export default function BookInfo ({ navigation, route }: any) {
     // Display Icons
     function DisplayIcons(props: any) {
         if (isAdmin) {
-            // just return the check
+            // Return the check
             return (
                 <TouchableOpacity>
                     <AntDesign name="check" size={24} onPress={addToBooks} />

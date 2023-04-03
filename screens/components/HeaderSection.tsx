@@ -1,4 +1,4 @@
-import {  MaterialIcons } from "@expo/vector-icons";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons"
 import {Box, Heading, Pressable, Icon,} from "native-base";
 
 export function HeaderSection(props:any) {

@@ -1,7 +1,7 @@
 import * as React from "react"
 import {Icon, Input, Pressable, Stack, FormControl, Select} from "native-base";
 import CustomButton from "../globals/CustomButton";
-import { MaterialIcons} from "@expo/vector-icons";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons"
 import { createUser, setUserInfo } from "../../Storage/UserStorage";
 import { LanguageSelector } from "../components/LanguageSelector";
 

@@ -2,7 +2,8 @@ import * as React from "react"
 import {Icon, Input, Pressable, Stack, FormControl} from "native-base";
 import i18n from "../../locale";
 import CustomButton from "../globals/CustomButton";
-import { Ionicons, MaterialIcons} from "@expo/vector-icons";
+import Ionicons from "react-native-vector-icons/Ionicons"
+import MaterialIcons from "react-native-vector-icons/MaterialIcons"
 import { loginEmailPassword } from "../../Storage/UserStorage";
 
 export default function FormLogin ({ navigation }:any) {

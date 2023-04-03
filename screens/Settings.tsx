@@ -7,7 +7,7 @@ import { clearAllStorageData } from "../Storage/BookStorage";
 import { deleteAccount } from "../Storage/UserStorage";
 import { Box, Heading, Icon, Stack, FormControl, Select, Button, Flex, Spacer } from "native-base";
 import { logoutUserFirebase } from "../Storage/UserStorage";
-import { MaterialIcons } from "@expo/vector-icons";
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import Background from "./components/Background";
 import { LanguageSelector } from "./components/LanguageSelector";
 
@@ -72,7 +72,7 @@ export default function Settings({ navigation }: any) {
                   }}
                   dropdownIcon={
                     <Icon
-                      as={<MaterialIcons name="person" />}
+                      as={<FontAwesomeIcon name="person" />}
                       size={5}
                       ml="2"
                       color="muted.400"
