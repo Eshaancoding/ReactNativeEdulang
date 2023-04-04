@@ -1,5 +1,5 @@
-import * as firebase from "firebase"
-import AsyncStorage from "@react-native-async-storage/async-storage"
+import { auth, db } from '../firebase';
+import AsyncStorage from '@react-native-community/async-storage';
 import { useAtom } from "jotai";
 import { atomWithReset, RESET } from "jotai/utils"
 
@@ -55,8 +55,8 @@ export const getCloudBooks = async (languageFilter:any) => {
 
     // Now
     var datas = [] as any
-    const snapshot = await firebase.firestore().collection("Books").get()
-    snapshot.forEach((doc) => {
+    const snapshot = await db.collection("Books").get()
+    snapshot.forEach((doc:any) => {
         const data = doc.data()
         // Filter out language and check if cloud book is not in local storage
         if ((data.language == languageFilter && !titlesLang.includes(data.title)) || languageFilter == undefined) {
@@ -184,8 +184,7 @@ export async function removeFromData(item:any) {
 
 // ****************************** FIREBASE ******************************
 export async function getAdminBooks() {
-    const snapshot = await firebase
-        .firestore()
+    const snapshot = await db 
         .collection("BooksReview")
         .get();
 
@@ -204,8 +203,8 @@ export async function uploadBook(item:any, directBook = false) {
     if (directBook === true) {
         collectionSelect = "Books"
     }
-    let uid = firebase.auth()?.currentUser?.uid;
-    const document = firebase.firestore().collection(collectionSelect).doc(item.title + " " + uid!.toString())
+    let uid = auth.currentUser?.uid;
+    const document = db.collection(collectionSelect).doc(item.title + " " + uid!.toString())
 
     await document.set({ title: item.title, language: item.language, description: item.description, lenPages: Object.keys(item.book).length, source: item.source })
 
@@ -225,7 +224,7 @@ export async function getBookPages(id:any, lenPages:number, fromBookReview:boole
         collectionName = "BooksReview"
     }
 
-    const document = firebase.firestore().collection(collectionName).doc(id)
+    const document = db.collection(collectionName).doc(id)
     const arr = []
 
     for (var i = 0; i < lenPages; i++) {
@@ -251,19 +250,19 @@ export async function acceptBook(item:any) {
 
     // Then delete the data about the selected item
     for (var i = 0; i < lenPages; i++) {
-        await firebase.firestore()
+        await db
             .collection("BooksReview")
             .doc(id)
             .collection("page" + (i + 1).toString())
             .doc((i + 1).toString())
             .delete()
     }
-    await firebase.firestore().collection("BooksReview").doc(id).delete()
+    await db.collection("BooksReview").doc(id).delete()
 
     // Then store new set into actual books
     const collectionSelect = "Books"
-    let uid = firebase.auth()?.currentUser?.uid;
-    const document = firebase.firestore().collection(collectionSelect).doc(item.title + " " + uid!.toString())
+    let uid = auth.currentUser?.uid;
+    const document = db.collection(collectionSelect).doc(item.title + " " + uid!.toString())
 
     document.set({ title: item.title, language: item.language, description: item.description, source: item.source, lenPages: Object.keys(item.book).length })
 

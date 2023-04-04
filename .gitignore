@@ -67,3 +67,4 @@ android/
 ios
 .bundle
 __tests__
+firebase.tsx

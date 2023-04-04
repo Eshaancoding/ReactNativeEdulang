@@ -7,7 +7,7 @@ import {
   TextInput,
   Alert,
 } from "react-native";
-import * as firebase from "firebase";
+import {auth, db} from "../../firebase"
 import CustomButton from "../globals/CustomButton";
 import { Center, VStack } from "native-base";
 
@@ -18,10 +18,9 @@ const FeedbackModal = ({ visible, hideModal }:any) => {
     if (feedbackText == "") {
       Alert.alert("Please enter feedback!")
     } else {
-      firebase.auth().onAuthStateChanged((user) => {
+      auth.onAuthStateChanged((user) => {
         if (user) {
-          firebase
-            .firestore()
+          db
             .collection("feedbacks")
             .add({
               userEmail: user.email,

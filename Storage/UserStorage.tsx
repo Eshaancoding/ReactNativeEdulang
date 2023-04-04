@@ -1,4 +1,4 @@
-import * as firebase from "firebase";
+import { auth, db } from "../firebase";
 import axios from "axios";
 import { server } from "../Server";
 import { useAtom } from "jotai";
@@ -15,8 +15,7 @@ export const isAdminAtom = atomWithReset(false)
 // user functions from firebase 
 export function createUser(email:string, password:string) {
     return new Promise((resolve, reject) => {
-        firebase
-            .auth()
+        auth
             .createUserWithEmailAndPassword(email, password)
             .then(() => {
                 resolve("success")
@@ -30,8 +29,7 @@ export function createUser(email:string, password:string) {
 
 export function loginEmailPassword(email:string, password:string) {
     return new Promise((resolve, reject) => {
-        firebase
-            .auth()
+        auth
             .signInWithEmailAndPassword(email, password)
             .then(() => {
                 resolve("success")
@@ -43,7 +41,7 @@ export function loginEmailPassword(email:string, password:string) {
 };
 
 export async function logoutUserFirebase() {
-    return firebase.auth().signOut()
+    return auth.signOut()
 }
 
 export async function getUserInfoFirebase() {
@@ -53,10 +51,9 @@ export async function getUserInfoFirebase() {
     const [username, setUsername] = useAtom(usernameAtom)
     const [isAdmin, setIsAdmin] = useAtom(isAdminAtom)
 
-    await firebase
-        .firestore()
+    db
         .collection("userInfo")
-        .doc(firebase.auth().currentUser!.uid)
+        .doc(auth.currentUser!.uid)
         .onSnapshot(async (snapshot) => {
             if (snapshot) {
                 // Get data from snapshot
@@ -120,9 +117,8 @@ export function setUserInfo(nativelanguage:any, translatedlanguage:any, grade:an
     }
 
     return new Promise((resolve, reject) => {
-        let uid = firebase.auth()?.currentUser?.uid;
-        firebase
-            .firestore()
+        let uid = auth.currentUser?.uid;
+        db
             .collection("userInfo")
             .doc(uid)
             .set(info, {
@@ -147,14 +143,13 @@ export const deleteAccount = () => {
     setIsAdmin(RESET)
    
     return new Promise((resolve, reject) => {
-        firebase
-            .firestore()
+        db
             .collection("userInfo")
-            .doc(firebase.auth().currentUser!.uid)
+            .doc(auth.currentUser!.uid)
             .delete()
             .then(() => {
-                firebase.auth().currentUser!.delete();
-                firebase.auth().signOut();
+                auth.currentUser!.delete();
+                auth.signOut();
                 resolve("Success")
             }).catch((e) => reject(e));
     })

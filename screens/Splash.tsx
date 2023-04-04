@@ -1,5 +1,5 @@
 import * as React from 'react'
-import * as firebase from 'firebase'
+import { auth } from '../firebase'
 import {Text, View, StyleSheet, Image} from "react-native"
 import { getUserInfoFirebase } from '../Storage/UserStorage'
 import { updateAtomData } from '../Storage/BookStorage'
@@ -20,6 +20,7 @@ const styles = StyleSheet.create({
         top: '50%',
         transform: [{
             translateX: -50, 
+        }, {
             translateY: 50
         }]
     }
@@ -28,7 +29,7 @@ const styles = StyleSheet.create({
 export default function Splash ({navigation}:any) {
     React.useEffect(() => {
         setTimeout(() => {
-            firebase.auth().onAuthStateChanged(async (user) => {
+            auth.onAuthStateChanged(async (user:any) => {
                 if (user) {                     // if valid user
                     await getUserInfoFirebase() // sets username, isAdmin, 
                     await updateAtomData();     // sets fav books and data etc.
