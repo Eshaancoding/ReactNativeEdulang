@@ -10,13 +10,13 @@ import { useAtom } from 'jotai';
 import { isAdminAtom } from './Storage/UserStorage';
 
 // screen imports
-import Splash from './screens/Splash';
-import WelcomeScreen from './screens/Login/WelcomeScreen';
-import Home from './screens/HomeTab/Home';
-import Settings from './screens/Settings';
-import LibraryHome from './screens/LibraryTab/LibraryHome';
-import BookInfo from './screens/SharedScreens/BookInfo';
-import BookReader from './screens/SharedScreens/BookReader';
+import Splash from './Screens/Splash';
+import WelcomeScreen from './Screens/Login/WelcomeScreen';
+import Home from './Screens/HomeTab/Home';
+import Settings from './Screens/Settings';
+import LibraryHome from './Screens/LibraryTab/LibraryHome';
+import BookInfo from './Screens/SharedScreens/BookInfo';
+import BookReader from './Screens/SharedScreens/BookReader';
 
 // Admin navigator
 const AdminScreenNavigator = createNativeStackNavigator();
@@ -54,7 +54,7 @@ function HomeScreen(): JSX.Element {
       <HomeScreenNavigator.Screen name="Book Info" component={BookInfo}/>  
       <HomeScreenNavigator.Screen name="Book Reader" component={BookReader}/>  
     </HomeScreenNavigator.Navigator>
-  ) 
+  )
 }
 
 // tab navigator
@@ -68,7 +68,7 @@ function Tab(): JSX.Element {
       <TabScreen.Screen name="Settings" component={Settings}/>;
       {isAdmin ? <TabScreen.Screen name="Admin" component={AdminScreen} /> : <></>}
     </TabScreen.Navigator>
-  )  
+  )
 }
 
 // Base app

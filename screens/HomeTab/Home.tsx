@@ -2,10 +2,9 @@ import React, {useState} from "react"
 import { Box } from "native-base"
 import { useTranslation } from "react-i18next"
 import { dataAtom } from "../../Storage/BookStorage";
-import { usernameAtom, isAdminAtom, getUserInfoFirebase } from "../../Storage/UserStorage";
+import { usernameAtom } from "../../Storage/UserStorage";
 import { useAtom } from "jotai";
 import { useIsFocused } from "@react-navigation/native";
-import { updateAtomData } from "../../Storage/BookStorage";
 import { Header } from "../components/Header";
 import { HeaderSection } from "../components/HeaderSection";
 import Background from "../components/Background";
@@ -25,12 +24,12 @@ export default function Home ({navigation}:any) {
     // update information
     React.useEffect(() => {
         updateSearchData(data, text);
-    }, [text, isFocused])    
+    }, [text, isFocused, data])    
 
     // Update search data when changed 
-    function updateSearchData (dataFilter:any, text:string) {
-        setText(text)
-        if (text === "")
+    function updateSearchData (dataFilter:any, t:string) {
+        setText(t)
+        if (t === "")
             setSearchData(dataFilter)    
         else
             setSearchData(dataFilter.filter((book:any) => {
@@ -44,7 +43,7 @@ export default function Home ({navigation}:any) {
             <Background />
             <Header 
                 title={`${t("home.welcome")} ${username}`}
-                onSearchBarChange={(text:string) => updateSearchData(data, text)}
+                onSearchBarChange={(t:string) => updateSearchData(data, t)}
                 onFeedbackPress={() => setfeedbackModal(true)}
             />
             <HeaderSection

@@ -159,12 +159,12 @@ export default function WelcomeScreenNew ({ navigation }:any) {
                   bg="gray.100"
                   pt="1/6"
                 >
-                  {/* {formSelected === "login" && (
+                  {formSelected === "login" && (
                     <FormLogin navigation={navigation} />
                   )}
                   {formSelected === "register" && (
                     <FormRegister navigation={navigation} />
-                  )} */}
+                  )}
                 </Box>
               </Animated.View>
             </Animated.View>
