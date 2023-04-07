@@ -5,6 +5,7 @@ import CustomButton from "../globals/CustomButton";
 import Ionicons from "react-native-vector-icons/Ionicons"
 import MaterialIcons from "react-native-vector-icons/MaterialIcons"
 import { loginEmailPassword } from "../../Storage/UserStorage";
+import { clearAllStorageData } from "../../Storage/BookStorage";
 
 export default function FormLogin ({ navigation }:any) {
   const [show, setShow] = React.useState(false);
@@ -29,7 +30,8 @@ export default function FormLogin ({ navigation }:any) {
     }
 
     loginEmailPassword(email, password)
-      .then(() => {
+      .then(async () => {
+        await clearAllStorageData()
         setIsInvalid(false);
         i18n.changeLanguage("en");
         navigation.replace("Tabs");

@@ -4,6 +4,7 @@ import CustomButton from "../globals/CustomButton";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons"
 import { createUser, setUserInfo } from "../../Storage/UserStorage";
 import { LanguageSelector } from "../components/LanguageSelector";
+import { clearAllStorageData } from "../../Storage/BookStorage";
 
 export default function FormRegister ({ navigation }:any) {
   const [show, setShow] = React.useState(false);
@@ -67,6 +68,8 @@ export default function FormRegister ({ navigation }:any) {
         }
       })
       .then(async () => {
+        await clearAllStorageData()
+
         await setUserInfo(
           originalLanguage,
           translatedLanguage,

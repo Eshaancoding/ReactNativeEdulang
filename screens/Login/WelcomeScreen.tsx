@@ -7,17 +7,27 @@ import Animated, {useSharedValue, useAnimatedStyle, interpolate, withTiming, wit
 import FormLogin from "./FormLogin";
 import FormRegister from "./FormRegister";
 import { useKeyboardShow } from "../hooks/useKeyboardShow";
-import { useIsFocused } from "@react-navigation/native";
-import { clearAllStorageData } from "../../Storage/BookStorage";
 const { width: WIDTH, height: HEIGHT } = Dimensions.get("window");
 
 export default function WelcomeScreenNew ({ navigation }:any) {
   // Decides which form to show
   const [formSelected, setFormSelected] = React.useState("");
-  const [didClear, setDidClear] = React.useState(false)
+  const isKeyboardVisible = useKeyboardShow();
   // Allows animation
   const imagePosition = useSharedValue(1);
   const formPosition = useSharedValue(1);
+  
+  // helps detect if keyboard is display
+  React.useEffect(() => {
+    if (isKeyboardVisible) {
+      if (formSelected === "login") formPosition.value = -0.3;
+      else formPosition.value = -0.15;
+    } else {
+      formPosition.value = 1;
+    }
+  }, [isKeyboardVisible]);
+
+  // animated style
   const imageAnimatedStyle = useAnimatedStyle(() => {
     const interpolation = interpolate(
       imagePosition.value,
@@ -30,16 +40,7 @@ export default function WelcomeScreenNew ({ navigation }:any) {
       ],
     };
   });
-  // helps detect if keyboard is display
-  // const isKeyboardVisible = useKeyboardShow();
-  // React.useEffect(() => {
-  //   if (isKeyboardVisible) {
-  //     if (formSelected === "login") formPosition.value = -0.3;
-  //     else formPosition.value = -0.45;
-  //   } else {
-  //     formPosition.value = 1;
-  // }, [isKeyboardVisible]);
-
+  
   // helps move everything up when keyboard is display
   const keyboardAnimatedStyle = useAnimatedStyle(() => {
     const interpolation = interpolate(
@@ -93,11 +94,6 @@ export default function WelcomeScreenNew ({ navigation }:any) {
     imagePosition.value = 1;
   };
 
-  if (!didClear) {
-    clearAllStorageData().catch((e:string) => console.log("err: ", e))
-    setDidClear(true)
-  }
-
   return (
     <View style={styles.container}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -133,7 +129,7 @@ export default function WelcomeScreenNew ({ navigation }:any) {
           </Animated.View>
 
           <Center
-            top={HEIGHT * (formSelected === "register" ? 0.29 : 0.37)}
+            top={HEIGHT * (formSelected === "register" ? 0.165 : 0.37)}
             alignSelf="center"
           >
             <Animated.View style={keyboardAnimatedStyle}>
