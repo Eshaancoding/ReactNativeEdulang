@@ -47,6 +47,7 @@ export async function clearAllStorageData () {
     await setStorage("titles", {})    
     await setStorage("favBooks", [])    
     await setStorage("completedBooks", [])    
+    console.log("cleared all storage data")
 }
 
 export const getCloudBooks = async (languageFilter:any) => {

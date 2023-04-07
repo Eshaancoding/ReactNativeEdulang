@@ -6,17 +6,15 @@ import { View, Image, StyleSheet, Keyboard, Dimensions, TouchableWithoutFeedback
 import Animated, {useSharedValue, useAnimatedStyle, interpolate, withTiming, withDelay} from "react-native-reanimated";
 import FormLogin from "./FormLogin";
 import FormRegister from "./FormRegister";
-import { useTranslation } from "react-i18next";
 import { useKeyboardShow } from "../hooks/useKeyboardShow";
 import { useIsFocused } from "@react-navigation/native";
 import { clearAllStorageData } from "../../Storage/BookStorage";
 const { width: WIDTH, height: HEIGHT } = Dimensions.get("window");
 
 export default function WelcomeScreenNew ({ navigation }:any) {
-  const { t } = useTranslation();
   // Decides which form to show
   const [formSelected, setFormSelected] = React.useState("");
-  const isFocused = useIsFocused();
+  const [didClear, setDidClear] = React.useState(false)
   // Allows animation
   const imagePosition = useSharedValue(1);
   const formPosition = useSharedValue(1);
@@ -33,15 +31,14 @@ export default function WelcomeScreenNew ({ navigation }:any) {
     };
   });
   // helps detect if keyboard is display
-  const isKeyboardVisible = useKeyboardShow();
-  React.useEffect(() => {
-    if (isKeyboardVisible) {
-      if (formSelected === "login") formPosition.value = -0.3;
-      else formPosition.value = -0.45;
-    } else {
-      formPosition.value = 1;
-    }
-  }, [isKeyboardVisible]);
+  // const isKeyboardVisible = useKeyboardShow();
+  // React.useEffect(() => {
+  //   if (isKeyboardVisible) {
+  //     if (formSelected === "login") formPosition.value = -0.3;
+  //     else formPosition.value = -0.45;
+  //   } else {
+  //     formPosition.value = 1;
+  // }, [isKeyboardVisible]);
 
   // helps move everything up when keyboard is display
   const keyboardAnimatedStyle = useAnimatedStyle(() => {
@@ -83,10 +80,12 @@ export default function WelcomeScreenNew ({ navigation }:any) {
     };
   });
   const showFormsLoginHandler = () => {
+    console.log("Login")
     setFormSelected("login");
     imagePosition.value = 0;
   };
   const showFormsRegisterHandler = () => {
+    console.log("register")
     setFormSelected("register");
     imagePosition.value = 0;
   };
@@ -94,7 +93,10 @@ export default function WelcomeScreenNew ({ navigation }:any) {
     imagePosition.value = 1;
   };
 
-  React.useEffect(() => {clearAllStorageData()}, [isFocused]);
+  if (!didClear) {
+    clearAllStorageData().catch((e:string) => console.log("err: ", e))
+    setDidClear(true)
+  }
 
   return (
     <View style={styles.container}>
@@ -118,9 +120,7 @@ export default function WelcomeScreenNew ({ navigation }:any) {
                 </HStack>
 
                 <Image source={require("../../assets/images/RealEduLangLogo.png")} style={styles.logo} />
-                <Heading size="sm" color="#4CA4D3">
-                  {t("general.appSubstring")}
-                </Heading>
+                <Heading size="sm" color="#4CA4D3">Bridging the language gap through stories</Heading>
               </Center>
             </Box>
           </Animated.View>
@@ -159,12 +159,12 @@ export default function WelcomeScreenNew ({ navigation }:any) {
                   bg="gray.100"
                   pt="1/6"
                 >
-                  {formSelected === "login" && (
+                  {/* {formSelected === "login" && (
                     <FormLogin navigation={navigation} />
                   )}
                   {formSelected === "register" && (
                     <FormRegister navigation={navigation} />
-                  )}
+                  )} */}
                 </Box>
               </Animated.View>
             </Animated.View>
